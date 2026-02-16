@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-arteb-bgBlue text-gray-800 font-sans;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply font-bold;
+    }
+}
+
+@layer components {
+    .glass {
+        @apply bg-white bg-opacity-90 backdrop-blur-md border border-white/20 shadow-lg;
+    }
+
+    .glass-dark {
+        @apply bg-arteb-deepBlue bg-opacity-95 backdrop-blur-md border border-white/10 shadow-lg text-white;
+    }
+
+    .btn-primary {
+        @apply bg-arteb-vibrantYellow text-arteb-deepBlue font-bold px-4 py-2 rounded shadow-md hover:bg-arteb-yellowLight transition-all duration-300;
+    }
+
+    .btn-secondary {
+        @apply bg-arteb-deepBlue text-white font-medium px-4 py-2 rounded shadow-md hover:bg-arteb-deepBlueDark transition-all duration-300;
+    }
+
+    /* Checklist Customizado */
+    .topic-item:hover {
+        background-color: rgba(255, 215, 0, 0.1);
+    }
+}

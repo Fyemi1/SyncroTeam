@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  password      String
+  name          String
+  role          String         @default("EMPLOYEE") // EMPLOYEE, ADMIN (Supervisor/Manager)
+  teamId        Int?
+  team          Team?          @relation(fields: [teamId], references: [id])
+  
+  // Relations
+  tasksCreated  Task[]         @relation("CreatedTasks")
+  taskAssignments TaskAssignee[]
+  comments      Comment[]
+  notifications Notification[]
+  
+  // Supervisor Groups
+  supervisorGroupsOwned SupervisorGroup[] @relation("SupervisorOwner")
+  memberOfGroups        SupervisorGroupMember[]
+
+
+
+  historyActions TaskHistory[]
+  completedTopics TaskTopic[] @relation("TopicCompleter")
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Team {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  members     User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SupervisorGroup {
+  id           Int      @id @default(autoincrement())
+  name         String
+  supervisorId Int
+  supervisor   User     @relation("SupervisorOwner", fields: [supervisorId], references: [id])
+  members      SupervisorGroupMember[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model SupervisorGroupMember {
+  id                Int             @id @default(autoincrement())
+  supervisorGroupId Int
+  group             SupervisorGroup @relation(fields: [supervisorGroupId], references: [id])
+  userId            Int
+  user              User            @relation(fields: [userId], references: [id])
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  @@unique([supervisorGroupId, userId])
+}
+
+model Task {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  status      String    @default("OPEN") // OPEN, IN_PROGRESS, WAITING_APPROVAL, COMPLETED, OVERDUE
+  priority    String    @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  dueDate     DateTime?
+  
+  creatorId   Int
+  creator     User      @relation("CreatedTasks", fields: [creatorId], references: [id])
+  
+  assignees   TaskAssignee[]
+  
+  // Topics/Subtasks
+  topics      TaskTopic[]
+  
+  comments    Comment[]
+  history     TaskHistory[]
+
+  // Approval info
+  approvedBy  Int?      // ID of supervisor who approved
+  approvedAt  DateTime?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model TaskAssignee {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  assignedAt DateTime @default(now())
+
+  @@unique([taskId, userId])
+}
+
+model TaskTopic {
+  id         Int      @id @default(autoincrement())
+  taskId     Int
+  task       Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  title      String
+  status     String   @default("PENDING") // PENDING, IN_PROGRESS, DONE
+  orderIndex Int      @default(0)
+  
+  completedBy Int?
+  completer   User?    @relation("TopicCompleter", fields: [completedBy], references: [id])
+  completedAt DateTime?
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  taskId    Int
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  message   String
+  read      Boolean  @default(false)
+  type      String   @default("INFO") // INFO, TASK_ASSIGNED, TASK_APPROVAL, etc
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model TaskHistory {
+  id        Int      @id @default(autoincrement())
+  taskId    Int
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  action    String   // CREATED, STATUS_CHANGE, TOPIC_ADDED, etc
+  details   String?  // JSON string or text description of change
+  createdAt DateTime @default(now())
+}
