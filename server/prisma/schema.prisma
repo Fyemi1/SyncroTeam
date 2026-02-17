@@ -25,7 +25,8 @@ model User {
   // Supervisor Groups
   supervisorGroupsOwned SupervisorGroup[] @relation("SupervisorOwner")
   memberOfGroups        SupervisorGroupMember[]
-
+  
+  createdProjects       Project[]      @relation("CreatedProjects")
 
 
   historyActions TaskHistory[]
@@ -78,6 +79,10 @@ model Task {
   creator     User      @relation("CreatedTasks", fields: [creatorId], references: [id])
   
   assignees   TaskAssignee[]
+  
+  projectId   Int?
+  project     Project?  @relation(fields: [projectId], references: [id])
+  position    Int?      @default(0)
   
   // Topics/Subtasks
   topics      TaskTopic[]
@@ -150,4 +155,21 @@ model TaskHistory {
   action    String   // CREATED, STATUS_CHANGE, TOPIC_ADDED, etc
   details   String?  // JSON string or text description of change
   createdAt DateTime @default(now())
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  color       String?   @default("#003366")
+  icon        String?
+  
+  creatorId   Int
+  creator     User      @relation("CreatedProjects", fields: [creatorId], references: [id])
+  
+  tasks       Task[]
+  
+  isArchived  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

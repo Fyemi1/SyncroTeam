@@ -2,7 +2,7 @@ const prisma = require('../prisma');
 
 const createTask = async (req, res) => {
     try {
-        const { title, description, priority, dueDate, assigneeIds, topics } = req.body;
+        const { title, description, priority, dueDate, assigneeIds, topics, projectId } = req.body;
 
         const taskData = {
             title,
@@ -11,6 +11,7 @@ const createTask = async (req, res) => {
             dueDate: dueDate ? new Date(dueDate) : null,
             creatorId: req.user.id,
             status: 'OPEN',
+            projectId: projectId ? parseInt(projectId) : null,
         };
 
         // Handle Assignees
@@ -54,6 +55,15 @@ const createTask = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+// ... (getTasks, getTaskById, updateTask... keep as is if not modifying them now, but I need to be careful with replace_file_content range)
+// I will just use the provided StartLine/EndLine for the visible area or just append moveTask at the end and update export.
+
+// Actually, I can't effectively replace spread out parts.
+// I will do two replaces. One for createTask, one for appending moveTask.
+
+// This replace call is for createTask ONLY.
+
 
 const getTasks = async (req, res) => {
     try {
@@ -286,10 +296,40 @@ const toggleTopic = async (req, res) => {
     }
 };
 
+const moveTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { projectId, position } = req.body;
+
+        const task = await prisma.task.update({
+            where: { id: parseInt(id) },
+            data: {
+                projectId: projectId ? parseInt(projectId) : null,
+                position: position !== undefined ? parseInt(position) : undefined
+            }
+        });
+
+        await prisma.taskHistory.create({
+            data: {
+                taskId: task.id,
+                userId: req.user.id,
+                action: 'MOVED',
+                details: `Moved to project ${projectId || 'None'}`
+            }
+        });
+
+        res.json(task);
+    } catch (error) {
+        console.error('Move task error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     createTask,
     getTasks,
     getTaskById,
     updateTask,
     toggleTopic,
+    moveTask
 };

@@ -95,11 +95,11 @@ const SupervisorGroups = () => {
 
     return (
         <div>
-            <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-arteb-deepBlue tracking-wide">Meus Grupos de Supervisão</h2>
+            <div className="flex justify-between items-start md:items-center mb-6 flex-col md:flex-row gap-4">
+                <h2 className="text-xl md:text-2xl font-bold text-arteb-deepBlue tracking-wide">Meus Grupos de Supervisão</h2>
                 <button
                     onClick={() => handleOpenModal()}
-                    className="flex items-center space-x-2 bg-arteb-vibrantYellow text-arteb-deepBlue font-bold px-4 py-2 rounded shadow-md hover:bg-arteb-yellowLight transition-all"
+                    className="flex items-center space-x-2 bg-arteb-vibrantYellow text-arteb-deepBlue font-bold px-4 py-2 rounded shadow-md hover:bg-arteb-yellowLight transition-all w-full md:w-auto justify-center"
                 >
                     <Plus size={20} />
                     <span>Novo Grupo</span>
@@ -108,7 +108,7 @@ const SupervisorGroups = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {groups.map(group => (
-                    <div key={group.id} className="bg-white p-6 rounded shadow hover:shadow-md transition-shadow">
+                    <div key={group.id} className="bg-white p-4 md:p-6 rounded shadow hover:shadow-md transition-shadow">
                         <div className="flex justify-between items-start mb-4">
                             <h3 className="text-xl font-semibold text-gray-800 flex items-center space-x-2">
                                 <Users size={20} className="text-blue-500" />

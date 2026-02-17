@@ -28,14 +28,14 @@ const Team = () => {
 
     return (
         <div>
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Equipe</h2>
+            <h2 className="text-xl md:text-2xl font-bold mb-6 text-gray-800">Equipe</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
                 {/* Managers Section */}
-                <div className="bg-white p-6 rounded shadow">
+                <div className="bg-white p-4 md:p-6 rounded shadow">
                     <div className="flex items-center space-x-2 mb-4 text-purple-700">
                         <Shield size={24} />
-                        <h3 className="text-xl font-semibold">Supervisores / Chefes</h3>
+                        <h3 className="text-lg md:text-xl font-semibold">Supervisores / Chefes</h3>
                     </div>
                     {managers.length > 0 ? (
                         <ul className="space-y-3">
@@ -57,10 +57,10 @@ const Team = () => {
                 </div>
 
                 {/* Employees Section */}
-                <div className="bg-white p-6 rounded shadow">
+                <div className="bg-white p-4 md:p-6 rounded shadow">
                     <div className="flex items-center space-x-2 mb-4 text-blue-700">
                         <Briefcase size={24} />
-                        <h3 className="text-xl font-semibold">Funcionários</h3>
+                        <h3 className="text-lg md:text-xl font-semibold">Funcionários</h3>
                     </div>
                     {employees.length > 0 ? (
                         <ul className="space-y-3">

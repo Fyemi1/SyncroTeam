@@ -4,7 +4,8 @@ const {
     getTasks,
     getTaskById,
     updateTask,
-    toggleTopic
+    toggleTopic,
+    moveTask
 } = require('../controllers/taskController');
 const authMiddleware = require('../middleware/authMiddleware');
 
@@ -16,6 +17,7 @@ router.post('/', createTask);
 router.get('/', getTasks);
 router.get('/:id', getTaskById);
 router.put('/:id', updateTask);
+router.patch('/:id/move', moveTask);
 router.patch('/:taskId/topics/:topicId/toggle', toggleTopic);
 
 module.exports = router;

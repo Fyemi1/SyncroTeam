@@ -9,7 +9,13 @@ const prisma = require('./src/prisma');
 const authRoutes = require('./src/routes/authRoutes');
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'https://syncroteamm.vercel.app'
+    ],
+    credentials: true
+}));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
@@ -19,6 +25,7 @@ app.use('/api/tasks', require('./src/routes/taskRoutes'));
 app.use('/api/comments', require('./src/routes/commentRoutes'));
 app.use('/api/notifications', require('./src/routes/notificationRoutes'));
 app.use('/api/supervisor-groups', require('./src/routes/supervisorGroupRoutes'));
+app.use('/api/projects', require('./src/routes/projectRoutes'));
 
 // Basic health check
 app.get('/health', (req, res) => {

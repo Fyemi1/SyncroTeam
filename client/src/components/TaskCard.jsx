@@ -11,7 +11,7 @@ const TaskCard = ({ task, onClick }) => {
         <div
             onClick={() => onClick(task)}
             className={cn(
-                "bg-white p-4 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:border-arteb-deepBlue/30 transition-all duration-300 cursor-pointer relative overflow-hidden group",
+                "bg-white p-3 lg:p-5 rounded-lg shadow-sm border border-gray-100 hover:shadow-lg hover:border-arteb-deepBlue/30 transition-all duration-300 cursor-pointer relative overflow-hidden group text-sm lg:text-base",
                 // Status indicator colored left border
                 task.status === 'COMPLETED' ? 'border-l-4 border-l-green-500' :
                     task.status === 'WAITING_APPROVAL' ? 'border-l-4 border-l-purple-500' :
