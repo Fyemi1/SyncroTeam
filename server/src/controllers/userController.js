@@ -43,6 +43,7 @@ const getAllUsers = async (req, res) => {
                     select: { name: true },
                 },
             },
+            orderBy: { name: 'asc' }
         });
         res.json(users);
     } catch (error) {

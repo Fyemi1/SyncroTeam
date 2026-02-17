@@ -41,6 +41,7 @@ model Team {
   name        String
   description String?
   members     User[]
+  projects    Project[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -51,6 +52,7 @@ model SupervisorGroup {
   supervisorId Int
   supervisor   User     @relation("SupervisorOwner", fields: [supervisorId], references: [id])
   members      SupervisorGroupMember[]
+  projects     Project[]
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }
@@ -167,6 +169,12 @@ model Project {
   creatorId   Int
   creator     User      @relation("CreatedProjects", fields: [creatorId], references: [id])
   
+  teamId      Int?
+  team        Team?     @relation(fields: [teamId], references: [id])
+
+  supervisorGroupId Int?
+  supervisorGroup   SupervisorGroup? @relation(fields: [supervisorGroupId], references: [id])
+
   tasks       Task[]
   
   isArchived  Boolean   @default(false)

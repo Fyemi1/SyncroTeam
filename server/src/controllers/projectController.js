@@ -34,7 +34,9 @@ const createProject = async (req, res) => {
                 description,
                 color,
                 icon,
-                creatorId: req.user.id
+                creatorId: req.user.id,
+                teamId: req.body.teamId ? parseInt(req.body.teamId) : null,
+                supervisorGroupId: req.body.supervisorGroupId ? parseInt(req.body.supervisorGroupId) : null
             }
         });
 
