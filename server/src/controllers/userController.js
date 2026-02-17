@@ -25,17 +25,10 @@ const getAllUsers = async (req, res) => {
         const user = req.user;
         const where = {};
 
-        // If Supervisor (ADMIN), only show members of their groups + themselves
+        // If Supervisor (ADMIN), they should see ALL users now to manage the team.
+        // Previously limited to group members, but that hid new users.
         if (user.role === 'ADMIN') {
-            const supervisorGroups = await prisma.supervisorGroup.findMany({
-                where: { supervisorId: user.id },
-                include: { members: true }
-            });
-
-            const memberIds = supervisorGroups.flatMap(g => g.members.map(m => m.userId));
-            memberIds.push(user.id);
-
-            where.id = { in: memberIds };
+            // No filter needed, ADMIN sees all.
         }
 
         const users = await prisma.user.findMany({

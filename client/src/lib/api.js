@@ -17,6 +17,12 @@ export const api = {
             method: 'GET',
             headers: getHeaders(),
         });
+        if (response.status === 401) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+            throw { message: 'Session expired' };
+        }
         if (!response.ok) throw await response.json();
         return response.json();
     },
