@@ -9,6 +9,9 @@
     "scripts": {
         "postinstall": "cd server && npx prisma generate"
     },
+    "devDependencies": {
+        "prisma": "^5.10.2"
+    },
     "engines": {
         "node": ">=18.0.0"
     }
