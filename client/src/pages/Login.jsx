@@ -75,6 +75,7 @@ const Login = () => {
                             Solicite seu cadastro
                         </Link>
                     </p>
+                    <p className="text-xs text-gray-400 mt-2">v1.1 (Fix Redirect)</p>
                 </div>
             </div>
         </div>
