@@ -7,9 +7,9 @@
         "server"
     ],
     "scripts": {
-        "postinstall": "cd server && npm install && npx prisma generate"
+        "postinstall": "cd server && npx prisma generate"
     },
     "engines": {
-        "node": "18.x"
+        "node": ">=18.0.0"
     }
 }
