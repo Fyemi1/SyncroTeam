@@ -7,9 +7,9 @@
         "server"
     ],
     "scripts": {
-        "postinstall": "npx prisma generate --schema=server/prisma/schema.prisma"
+        "postinstall": "./node_modules/.bin/prisma generate --schema=server/prisma/schema.prisma"
     },
-    "devDependencies": {
+    "dependencies": {
         "prisma": "^5.10.2"
     },
     "engines": {
