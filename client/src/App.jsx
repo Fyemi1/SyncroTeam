@@ -8,6 +8,8 @@ import CalendarView from './pages/CalendarView';
 import Team from './pages/Team';
 import SupervisorGroups from './pages/SupervisorGroups';
 
+import PrivateRoute from './components/PrivateRoute';
+
 function App() {
   return (
     <Router>
@@ -15,13 +17,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="tasks" element={<Tasks />} />
-          <Route path="calendar" element={<CalendarView />} />
-          <Route path="team" element={<Team />} />
-          <Route path="groups" element={<SupervisorGroups />} />
+        {/* Protected Routes */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="calendar" element={<CalendarView />} />
+            <Route path="team" element={<Team />} />
+            <Route path="groups" element={<SupervisorGroups />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
