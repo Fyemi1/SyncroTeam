@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { api } from '../api';
+import { api } from '../lib/api';
 import { Plus, MoreHorizontal, Folder, Trash2 } from 'lucide-react';
 import TaskCard from './TaskCard'; // Assuming I can reuse TaskCard or create a simplified one
 
