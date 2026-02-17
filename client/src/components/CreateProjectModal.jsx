@@ -16,7 +16,7 @@ const CreateProjectModal = ({ onClose, onProjectCreated }) => {
             onClose();
         } catch (error) {
             console.error('Failed to create project', error);
-            alert('Falha ao criar projeto');
+            alert(`Falha ao criar projeto: ${error.message || JSON.stringify(error) || 'Erro desconhecido'}`);
         } finally {
             setLoading(false);
         }

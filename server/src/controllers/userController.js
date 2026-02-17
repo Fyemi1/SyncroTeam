@@ -45,6 +45,7 @@ const getAllUsers = async (req, res) => {
             },
             orderBy: { name: 'asc' }
         });
+        console.log('Returning users count:', users.length);
         res.json(users);
     } catch (error) {
         console.error('Get all users error:', error);

@@ -42,8 +42,8 @@ const createProject = async (req, res) => {
 
         res.status(201).json(project);
     } catch (error) {
-        console.error('Error creating project:', error);
-        res.status(500).json({ message: 'Server error' });
+        console.error('Error creating project:', JSON.stringify(error, null, 2));
+        res.status(500).json({ message: error.message || 'Server error', details: error });
     }
 };
 
