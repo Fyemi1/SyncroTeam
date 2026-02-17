@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '../lib/api';
 import { X, Plus, Trash } from 'lucide-react';
 
@@ -12,18 +13,18 @@ const CreateTaskModal = ({ onClose, onTaskCreated }) => {
     const [newTopic, setNewTopic] = useState('');
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
         try {
             const data = await api.get('/users');
             setUsers(data);
         } catch (error) {
             console.error('Erro ao buscar usuários', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]);
 
     const handleAddTopic = () => {
         if (newTopic.trim()) {

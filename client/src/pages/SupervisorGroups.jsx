@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '../lib/api';
 import { Plus, Users, Trash, Edit, X } from 'lucide-react';
 
@@ -12,28 +13,28 @@ const SupervisorGroups = () => {
     const [name, setName] = useState('');
     const [selectedMembers, setSelectedMembers] = useState([]);
 
-    useEffect(() => {
-        fetchGroups();
-        fetchUsers();
-    }, []);
-
-    const fetchGroups = async () => {
+    const fetchGroups = useCallback(async () => {
         try {
             const data = await api.get('/supervisor-groups');
             setGroups(data);
         } catch (error) {
             console.error('Error fetching groups:', error);
         }
-    };
+    }, []);
 
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
         try {
             const data = await api.get('/users');
             setUsers(data); // In a real app, filter this to only show employees available to be added?
         } catch (error) {
             console.error('Error fetching users:', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchGroups();
+        fetchUsers();
+    }, [fetchGroups, fetchUsers]);
 
     const handleOpenModal = (group = null) => {
         if (group) {

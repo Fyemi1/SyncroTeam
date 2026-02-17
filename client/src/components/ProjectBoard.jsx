@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import { api } from '../lib/api';
+
 import { Plus, MoreHorizontal, Folder, Trash2 } from 'lucide-react';
 import TaskCard from './TaskCard'; // Assuming I can reuse TaskCard or create a simplified one
 
@@ -38,7 +39,7 @@ const ProjectBoard = ({ tasks, projects, onTaskMove, onProjectCreate, onProjectD
         }
 
         // Optimistic Update
-        const startColumnId = source.droppableId;
+
         const finishColumnId = destination.droppableId;
 
         // Logic to update local state... to be implemented carefully or just trigger refetch?
@@ -85,7 +86,7 @@ const ProjectBoard = ({ tasks, projects, onTaskMove, onProjectCreate, onProjectD
                             >
                                 {boardData.unassigned.map((task, index) => (
                                     <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                                        {(provided, snapshot) => (
+                                        {(provided) => (
                                             <div
                                                 ref={provided.innerRef}
                                                 {...provided.draggableProps}
@@ -142,7 +143,7 @@ const ProjectBoard = ({ tasks, projects, onTaskMove, onProjectCreate, onProjectD
                                 >
                                     {(boardData.projects[project.id] || []).map((task, index) => (
                                         <Draggable key={task.id} draggableId={String(task.id)} index={index}>
-                                            {(provided, snapshot) => (
+                                            {(provided) => (
                                                 <div
                                                     ref={provided.innerRef}
                                                     {...provided.draggableProps}

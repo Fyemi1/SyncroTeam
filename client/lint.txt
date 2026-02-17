@@ -1,0 +1,202 @@
+﻿
+> client@0.0.0 lint
+> eslint .
+
+
+C:\Users\Joao\Downloads\Antigravity\client\src\components\CreateTaskModal.jsx
+  25:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  23 |
+  24 |     useEffect(() => {
+> 25 |         fetchUsers();
+     |         ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  26 |     }, [fetchUsers]);
+  27 |
+  28 |     const handleAddTopic = () => {  react-hooks/set-state-in-effect
+
+C:\Users\Joao\Downloads\Antigravity\client\src\components\ProjectBoard.jsx
+    3:10  error  'api' is defined but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        no-unused-vars
+   25:9   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  23 |         });
+  24 |
+> 25 |         setBoardData(newBoardData);
+     |         ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  26 |     }, [tasks, projects]);
+  27 |
+  28 |     const onDragEnd = async (result) => {  react-hooks/set-state-in-effect
+   41:15  error  'startColumnId' is assigned a value but never used. Allowed unused vars must match /^[A-Z_]/u                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     no-unused-vars
+   88:53  error  'snapshot' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+  145:57  error  'snapshot' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              no-unused-vars
+
+C:\Users\Joao\Downloads\Antigravity\client\src\components\TaskCard.jsx
+  5:10  error  'statusMap' is defined but never used. Allowed unused vars must match /^[A-Z_]/u     no-unused-vars
+  5:34  error  'statusColors' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\Joao\Downloads\Antigravity\client\src\components\TaskDetailsModal.jsx
+  7:50  error  'statusColors' is defined but never used. Allowed unused vars must match /^[A-Z_]/u  no-unused-vars
+
+C:\Users\Joao\Downloads\Antigravity\client\src\pages\CalendarView.jsx
+  15:9  error  Error: Cannot access variable before it is declared
+
+`fetchTasks` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  13 |
+  14 |     useEffect(() => {
+> 15 |         fetchTasks();
+     |         ^^^^^^^^^^ `fetchTasks` accessed before it is declared
+  16 |     }, []);
+  17 |
+  18 |     const fetchTasks = async () => {
+
+  16 |     }, []);
+  17 |
+> 18 |     const fetchTasks = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 19 |         try {
+     | ^^^^^^^^^^^^^
+> 20 |             const data = await api.get('/tasks');
+     | ^^^^^^^^^^^^^
+> 21 |             setTasks(data);
+     | ^^^^^^^^^^^^^
+> 22 |         } catch (error) {
+     | ^^^^^^^^^^^^^
+> 23 |             console.error('Erro ao buscar tarefas', error);
+     | ^^^^^^^^^^^^^
+> 24 |         }
+     | ^^^^^^^^^^^^^
+> 25 |     };
+     | ^^^^^^^ `fetchTasks` is declared here
+  26 |
+  27 |     const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
+  28 |     const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));  react-hooks/immutability
+
+C:\Users\Joao\Downloads\Antigravity\client\src\pages\Dashboard.jsx
+  17:9  error  Error: Cannot access variable before it is declared
+
+`fetchDashboardData` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  15 |
+  16 |     useEffect(() => {
+> 17 |         fetchDashboardData();
+     |         ^^^^^^^^^^^^^^^^^^ `fetchDashboardData` accessed before it is declared
+  18 |     }, []);
+  19 |
+  20 |     const fetchDashboardData = async () => {
+
+  18 |     }, []);
+  19 |
+> 20 |     const fetchDashboardData = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |         try {
+     | ^^^^^^^^^^^^^
+> 22 |             const tasks = await api.get('/tasks');
+     ÔÇª
+     | ^^^^^^^^^^^^^
+> 49 |         }
+     | ^^^^^^^^^^^^^
+> 50 |     };
+     | ^^^^^^^ `fetchDashboardData` is declared here
+  51 |
+  52 |     const COLORS = ['#003366', '#FFD700', '#FFBB28', '#8884d8']; // DeepBlue, VibrantYellow, etc
+  53 |     const PRIORITY_COLORS = { HIGH: '#FF0000', MEDIUM: '#FFD700', LOW: '#00C49F' }; // Custom mapped  react-hooks/immutability
+
+C:\Users\Joao\Downloads\Antigravity\client\src\pages\SupervisorGroups.jsx
+  16:9  error  Error: Cannot access variable before it is declared
+
+`fetchGroups` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  14 |
+  15 |     useEffect(() => {
+> 16 |         fetchGroups();
+     |         ^^^^^^^^^^^ `fetchGroups` accessed before it is declared
+  17 |         fetchUsers();
+  18 |     }, []);
+  19 |
+
+  18 |     }, []);
+  19 |
+> 20 |     const fetchGroups = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 21 |         try {
+     | ^^^^^^^^^^^^^
+> 22 |             const data = await api.get('/supervisor-groups');
+     | ^^^^^^^^^^^^^
+> 23 |             setGroups(data);
+     | ^^^^^^^^^^^^^
+> 24 |         } catch (error) {
+     | ^^^^^^^^^^^^^
+> 25 |             console.error('Error fetching groups:', error);
+     | ^^^^^^^^^^^^^
+> 26 |         }
+     | ^^^^^^^^^^^^^
+> 27 |     };
+     | ^^^^^^^ `fetchGroups` is declared here
+  28 |
+  29 |     const fetchUsers = async () => {
+  30 |         try {                                                                                                             react-hooks/immutability
+  17:9  error  Error: Cannot access variable before it is declared
+
+`fetchUsers` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+  15 |     useEffect(() => {
+  16 |         fetchGroups();
+> 17 |         fetchUsers();
+     |         ^^^^^^^^^^ `fetchUsers` accessed before it is declared
+  18 |     }, []);
+  19 |
+  20 |     const fetchGroups = async () => {
+
+  27 |     };
+  28 |
+> 29 |     const fetchUsers = async () => {
+     |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 30 |         try {
+     | ^^^^^^^^^^^^^
+> 31 |             const data = await api.get('/users');
+     | ^^^^^^^^^^^^^
+> 32 |             setUsers(data); // In a real app, filter this to only show employees available to be added?
+     | ^^^^^^^^^^^^^
+> 33 |         } catch (error) {
+     | ^^^^^^^^^^^^^
+> 34 |             console.error('Error fetching users:', error);
+     | ^^^^^^^^^^^^^
+> 35 |         }
+     | ^^^^^^^^^^^^^
+> 36 |     };
+     | ^^^^^^^ `fetchUsers` is declared here
+  37 |
+  38 |     const handleOpenModal = (group = null) => {
+  39 |         if (group) {  react-hooks/immutability
+
+C:\Users\Joao\Downloads\Antigravity\client\src\pages\Tasks.jsx
+  60:9  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+  58 |
+  59 |     useEffect(() => {
+> 60 |         fetchTasks();
+     |         ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  61 |         fetchUsers();
+  62 |         fetchProjects();
+  63 |     }, [fetchTasks, fetchUsers, fetchProjects]);  react-hooks/set-state-in-effect
+
+Ô£û 14 problems (14 errors, 0 warnings)
+

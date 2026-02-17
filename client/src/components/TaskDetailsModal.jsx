@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '../lib/api';
 import { X, CheckCircle, Circle, MessageSquare, Send, Clock, User, CheckSquare } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '../lib/utils';
-import { statusMap, priorityMap, priorityColors, statusColors } from '../lib/translations';
+import { statusMap, priorityMap, priorityColors } from '../lib/translations';
 
 const TaskDetailsModal = ({ taskId, onClose, onTaskUpdated }) => {
     const [task, setTask] = useState(null);
@@ -13,11 +13,7 @@ const TaskDetailsModal = ({ taskId, onClose, onTaskUpdated }) => {
 
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
 
-    useEffect(() => {
-        fetchTaskDetails();
-    }, [taskId]);
-
-    const fetchTaskDetails = async () => {
+    const fetchTaskDetails = useCallback(async () => {
         try {
             const data = await api.get(`/tasks/${taskId}`);
             setTask(data);
@@ -26,7 +22,11 @@ const TaskDetailsModal = ({ taskId, onClose, onTaskUpdated }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [taskId]);
+
+    useEffect(() => {
+        fetchTaskDetails();
+    }, [fetchTaskDetails]);
 
     const handleStatusChange = async (newStatus) => {
         try {

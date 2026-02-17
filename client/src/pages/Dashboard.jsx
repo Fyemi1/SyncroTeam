@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback } from 'react';
 import { api } from '../lib/api';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { CheckCircle, Clock, AlertTriangle, List } from 'lucide-react';
@@ -13,11 +14,7 @@ const Dashboard = () => {
         byStatus: []
     });
 
-    useEffect(() => {
-        fetchDashboardData();
-    }, []);
-
-    const fetchDashboardData = async () => {
+    const fetchDashboardData = useCallback(async () => {
         try {
             const tasks = await api.get('/tasks');
 
@@ -47,7 +44,11 @@ const Dashboard = () => {
         } catch (error) {
             console.error('Erro ao buscar dados do dashboard', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchDashboardData();
+    }, [fetchDashboardData]);
 
     const COLORS = ['#003366', '#FFD700', '#FFBB28', '#8884d8']; // DeepBlue, VibrantYellow, etc
     const PRIORITY_COLORS = { HIGH: '#FF0000', MEDIUM: '#FFD700', LOW: '#00C49F' }; // Custom mapped

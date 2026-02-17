@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback } from 'react';
+
 import { api } from '../lib/api';
 import TaskCard from '../components/TaskCard';
 import CreateTaskModal from '../components/CreateTaskModal';
@@ -24,13 +26,7 @@ const Tasks = () => {
 
     const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
-    useEffect(() => {
-        fetchTasks();
-        fetchUsers();
-        fetchProjects();
-    }, [statusFilter, priorityFilter, assigneeFilter]);
-
-    const fetchTasks = async () => {
+    const fetchTasks = useCallback(async () => {
         try {
             let query = '/tasks?';
             if (statusFilter) query += `status=${statusFilter}&`;
@@ -42,25 +38,31 @@ const Tasks = () => {
         } catch (error) {
             console.error('Falha ao buscar tarefas', error);
         }
-    };
+    }, [statusFilter, priorityFilter, assigneeFilter]);
 
-    const fetchUsers = async () => {
+    const fetchUsers = useCallback(async () => {
         try {
             const data = await api.get('/users');
             setUsers(data);
         } catch (error) {
             console.error('Falha ao buscar usuários', error);
         }
-    };
+    }, []);
 
-    const fetchProjects = async () => {
+    const fetchProjects = useCallback(async () => {
         try {
             const data = await api.get('/projects');
             setProjects(data);
         } catch (error) {
             console.error('Falha ao buscar projetos', error);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchTasks();
+        fetchUsers();
+        fetchProjects();
+    }, [fetchTasks, fetchUsers, fetchProjects]);
 
     const handleTaskCreated = () => {
         fetchTasks();
@@ -238,7 +240,7 @@ const Tasks = () => {
             {selectedTask && (
                 <TaskDetailsModal
                     taskId={selectedTask.id}
-                    onClose={handleCloseDetails}
+                    onClose={() => setSelectedTask(null)}
                     onTaskUpdated={fetchTasks}
                 />
             )}

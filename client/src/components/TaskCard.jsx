@@ -2,7 +2,7 @@ import { Calendar, User } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { cn } from '../lib/utils';
-import { statusMap, priorityMap, statusColors, priorityColors } from '../lib/translations';
+import { priorityMap, priorityColors } from '../lib/translations';
 
 const TaskCard = ({ task, onClick }) => {
     const assignees = task.assignees || [];
