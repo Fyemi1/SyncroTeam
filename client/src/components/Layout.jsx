@@ -52,6 +52,7 @@ const Layout = () => {
                     <div>
                         <h1 className="text-2xl font-bold text-white tracking-wide hidden md:block">SyncroTeam</h1>
                         <p className="text-xs text-blue-200 mt-1">Olá, {user.name}</p>
+                        <p className="text-[10px] text-blue-400 mt-1">v1.2 (Atualizado)</p>
                     </div>
                 </div>
 
