@@ -51,7 +51,8 @@ async function main() {
 if (process.env.NODE_ENV !== 'production') {
     main();
 } else {
-    // For Vercel, we export the app
+    // For Vercel, we export the app and ensure DB connects
+    prisma.$connect().then(() => console.log('DB Connected for Vercel')).catch(console.error);
     module.exports = app;
 }
 
