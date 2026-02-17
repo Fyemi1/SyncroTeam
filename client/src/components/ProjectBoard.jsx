@@ -58,6 +58,7 @@ const ProjectBoard = ({ tasks, projects, onTaskMove, onProjectCreate, onProjectD
             await onTaskMove(draggableId, projectId, newPosition);
         } catch (e) {
             console.error("Move failed", e);
+            alert('Falha ao mover a tarefa. Atualizando...');
             // Revert? (Trigger refetch)
             fetchTrigger();
         }

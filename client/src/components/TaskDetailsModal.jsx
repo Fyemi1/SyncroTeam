@@ -35,6 +35,7 @@ const TaskDetailsModal = ({ taskId, onClose, onTaskUpdated }) => {
             onTaskUpdated();
         } catch (error) {
             console.error('Erro ao atualizar status', error);
+            alert('Falha ao atualizar status da tarefa. Tente novamente.');
         }
     };
 
@@ -68,6 +69,7 @@ const TaskDetailsModal = ({ taskId, onClose, onTaskUpdated }) => {
 
         } catch (error) {
             console.error('Erro ao alterar tópico', error);
+            alert('Falha ao atualizar tópico. Revertendo...');
             fetchTaskDetails(); // Revert on error
         }
     };
