@@ -7,7 +7,7 @@
         "server"
     ],
     "scripts": {
-        "postinstall": "npx prisma generate --schema=server/prisma/schema.prisma"
+        "postinstall": "npx prisma@5.10.2 generate --schema=server/prisma/schema.prisma"
     },
     "dependencies": {
         "prisma": "^5.10.2"
