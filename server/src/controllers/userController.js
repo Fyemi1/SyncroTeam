@@ -25,6 +25,8 @@ const getAllUsers = async (req, res) => {
         const user = req.user;
         const where = {};
 
+        console.log('Fetching all users. Requester:', user.id, user.role);
+
         // If Supervisor (ADMIN), they should see ALL users now to manage the team.
         // Previously limited to group members, but that hid new users.
         if (user.role === 'ADMIN') {
@@ -49,7 +51,7 @@ const getAllUsers = async (req, res) => {
         res.json(users);
     } catch (error) {
         console.error('Get all users error:', error);
-        res.status(500).json({ message: 'Server error' });
+        res.status(500).json({ message: 'Server error', details: error.message });
     }
 };
 

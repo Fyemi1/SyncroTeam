@@ -16,7 +16,14 @@ const CreateProjectModal = ({ onClose, onProjectCreated }) => {
             onClose();
         } catch (error) {
             console.error('Failed to create project', error);
-            alert(`Falha ao criar projeto: ${error.message || JSON.stringify(error) || 'Erro desconhecido'}`);
+            // If it's an HTML response (syntax error), try to show a generic message
+            let info = error.message || 'Erro desconhecido';
+            if (typeof error === 'string' && error.trim().startsWith('<')) {
+                info = 'Erro interno do servidor (500). Verifique os logs.';
+            } else if (error.status === 500) {
+                info = `Erro interno do servidor: ${error.message}`;
+            }
+            alert(`Falha ao criar projeto: ${info}`);
         } finally {
             setLoading(false);
         }

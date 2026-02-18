@@ -26,24 +26,36 @@ const listProjects = async (req, res) => {
 
 const createProject = async (req, res) => {
     try {
+        console.log('Received createProject request:', req.body);
+        console.log('User creating project:', req.user);
+
         const { name, description, color, icon } = req.body;
 
+        const projectData = {
+            name,
+            description,
+            color,
+            icon,
+            creatorId: req.user.id,
+            teamId: req.body.teamId ? parseInt(req.body.teamId) : null,
+            supervisorGroupId: req.body.supervisorGroupId ? parseInt(req.body.supervisorGroupId) : null
+        };
+        console.log('Project data to create:', projectData);
+
         const project = await prisma.project.create({
-            data: {
-                name,
-                description,
-                color,
-                icon,
-                creatorId: req.user.id,
-                teamId: req.body.teamId ? parseInt(req.body.teamId) : null,
-                supervisorGroupId: req.body.supervisorGroupId ? parseInt(req.body.supervisorGroupId) : null
-            }
+            data: projectData
         });
 
+        console.log('Project created successfully:', project);
         res.status(201).json(project);
     } catch (error) {
-        console.error('Error creating project:', JSON.stringify(error, null, 2));
-        res.status(500).json({ message: error.message || 'Server error', details: error });
+        console.error('Error creating project FULL DETAILS:', JSON.stringify(error, null, 2));
+        console.error('Error message:', error.message);
+        console.error('Error stack:', error.stack);
+        res.status(500).json({
+            message: error.message || 'Server error',
+            details: error.meta || error
+        });
     }
 };
 
